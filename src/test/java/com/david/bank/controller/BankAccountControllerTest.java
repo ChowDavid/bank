@@ -25,7 +25,7 @@ class BankAccountControllerTest {
         mockMvc.perform(get("/bank/account/list?userName=DavidChow"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("[{\"accountNumber\":\"123-2223-212\",\"accountName\":\"SGSaving726\",\"accountType\":\"Savings\",\"balanceDate\":\"2021-11-07\",\"currency\":\"SGD\",\"balance\":8.00},{\"accountNumber\":\"123-2223-213\",\"accountName\":\"AUSaving726\",\"accountType\":\"Savings\",\"balanceDate\":\"2021-11-07\",\"currency\":\"AUD\",\"balance\":8.00}]")));
+                .andExpect(content().string(containsString("[{\"accountNumber\":\"123-2223-212\",\"accountName\":\"SGSaving726\",\"accountType\":\"Savings\"")));
 
     }
     @Test

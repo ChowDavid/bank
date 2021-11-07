@@ -29,9 +29,24 @@ public class BankAccountController {
         return accountService.getAccountListByUserName(userName, dateTime);
     }
 
+    /**
+     *
+     * @param accountNumber
+     * @param page which page
+     * @param size each page number of record
+     * @return
+     */
     @GetMapping("/transaction")
-    public List<TransactionResponse> getAccountTransactionByAccountNumber(@RequestParam(value="accountNumber") String accountNumber){
+    public List<TransactionResponse> getAccountTransactionByAccountNumber(
+            @RequestParam(value="accountNumber") String accountNumber,
+            @RequestParam(value="page",required = false) Integer page,
+            @RequestParam(value="size",required = false) Integer size
+    ){
         log.info("/bank/account/transaction accountNumber {} called",accountNumber);
-        return accountService.getTransactionByAccountNumber(accountNumber,dateTime);
+        if (page==null || size ==null){
+            return accountService.getTransactionByAccountNumber(accountNumber,null,null,dateTime);
+        } else {
+            return accountService.getTransactionByAccountNumber(accountNumber, page, size, dateTime);
+        }
     }
 }

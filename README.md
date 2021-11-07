@@ -19,6 +19,7 @@
 - http://localhost:8080/swagger-ui/index.html
 - http://localhost:8080/bank/account/list?userName=DavidChow
 - http://localhost:8080/bank/account/transaction?accountNumber=123-2223-212
+- http://localhost:8080/bank/account/transaction?accountNumber=123-2223-212&page=0&size=2
 - http://localhost:8080/h2-console
 
 ## Account List Request

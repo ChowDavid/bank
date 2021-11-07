@@ -12,6 +12,8 @@ import com.david.bank.repositories.PersonRepository;
 import com.david.bank.repositories.TransactionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -53,13 +55,20 @@ public class AccountService implements IAccountService{
     }
 
     @Override
-    public List<TransactionResponse> getTransactionByAccountNumber(String accountNumber,LocalDateTime dateTime) {
+    public List<TransactionResponse> getTransactionByAccountNumber(String accountNumber,Integer page, Integer size,LocalDateTime dateTime) {
         BankAccount bankAccount = bankAccountRepository.findByAccountNumber(accountNumber);
         if (bankAccount==null){
             log.info("Transaction not found by accountNumber {}",accountNumber);
             throw new AccountNotFoundException(accountNumber);
         }
-        List<Transaction> allTransactionSoFar = transactionRepository.findByBankAccount_AccountNumberAndValueDateBefore(accountNumber,dateTime);
+        List<Transaction> allTransactionSoFar=null;
+        if (page==null || size==null){
+            allTransactionSoFar = transactionRepository.findByBankAccount_AccountNumberAndValueDateBefore(accountNumber,dateTime);
+
+        } else {
+            Pageable atPage = PageRequest.of(page, size);
+            allTransactionSoFar = transactionRepository.findByBankAccount_AccountNumberAndValueDateBefore(accountNumber,dateTime,atPage);
+        }
         log.info("Transaction found {}",allTransactionSoFar.size());
         return allTransactionSoFar.stream()
                 .sorted(Comparator.comparing(Transaction::getValueDate))

@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface IAccountService {
     List<AccountResponse> getAccountListByUserName(String userName, LocalDateTime dateTime);
-    List<TransactionResponse> getTransactionByAccountNumber(String accountNumber, LocalDateTime dateTime);
+    List<TransactionResponse> getTransactionByAccountNumber(String accountNumber,Integer page,Integer size, LocalDateTime dateTime);
 
 }
